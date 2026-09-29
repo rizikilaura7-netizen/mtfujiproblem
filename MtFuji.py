@@ -106,22 +106,23 @@ def calculate_destination(current_point, alpha=0.2):
 
 # Problem 4: Go down Mt. Fuji
 
-
 def descend_mountain(start_point, alpha=0.2):
     """
     Descend Mt. Fuji from a specified starting point.
 
-    The function records every point visited and stops
-    when the next point is the same as the current point.
+    The function stops when:
+    - the next point is the same as the current point, or
+    - the next point has already been visited.
     """
 
-    # Store the starting point
+    # Store every point visited during the descent
     path = [start_point]
 
+    # Keep track of visited points to detect loops
+    visited = {start_point}
 
-    # Set the initial current point
+    # Start from the specified point
     current_point = start_point
-
 
     while True:
 
@@ -131,19 +132,17 @@ def descend_mountain(start_point, alpha=0.2):
             alpha
         )
 
-
-        # Stop when the rounded movement becomes zero
-        if next_point == current_point:
+        # Stop if there is no movement
+        # or if a previously visited point is reached
+        if next_point == current_point or next_point in visited:
             break
 
-
         # Record the new point
+        visited.add(next_point)
         path.append(next_point)
-
 
         # Move to the new point
         current_point = next_point
-
 
     return path
 
